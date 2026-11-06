@@ -29,7 +29,10 @@ def procesar_solicitud(ciudad: str, tipo_turismo: str, duracion_horas: int, pref
     latitud = coordenadas["lat"]
     longitud = coordenadas["lon"]
     meteorologia = api_clients.obtener_meteorologia(latitud, longitud)
-    lugares = api_clients.obtener_lugares(latitud, longitud, tipo_turismo)
+    try:
+        lugares = api_clients.obtener_lugares(latitud, longitud, tipo_turismo)
+    except (ValueError, api_clients.requests.exceptions.RequestException):
+        lugares = api_clients.cargar_fixture_lugares()
     modo_demo = any(lugar.get("demo", False) for lugar in lugares)
 
     contexto = {
