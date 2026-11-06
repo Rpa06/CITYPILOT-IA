@@ -1,13 +1,167 @@
 {% extends "base.html" %}
 {% block title %}Mi ruta · CityPilot IA{% endblock %}
 {% block content %}
-<section class="hero"><span class="eyebrow">TU ITINERARIO</span><h1>Un día diferente</h1></section>
-<section class="surface">
-  <!-- TODO(ALUMNADO): mostrar ciudad, tipo, temperatura, lluvia,
-       3-5 paradas, enlaces individuales a OSM si hay coordenadas,
-       tiempo estimado y texto generado por el modelo.
-       Si modo_demo: mostrar un aviso muy visible de DATOS SIMULADOS.
-       Si hay error: mostrar mensaje comprensible sin secretos. -->
-  <div class="todo">🛠️ Por implementar: resultado del planificador.</div>
+{% set clima = resultado.get('meteorologia', {}) or {} %}
+{% set lugares = resultado.get('lugares', []) or [] %}
+{% set datos_demo = resultado.get('modo_demo', false) or (lugares | selectattr('demo') | list | length > 0) %}
+{% set tipo_nombre = {
+  'cultural': 'Cultural',
+  'gastronomica': 'Gastronómica',
+  'naturaleza': 'Naturaleza',
+  'familiar': 'Familiar'
+}.get(resultado.get('tipo_turismo'), resultado.get('tipo_turismo', ''))
+%}
+
+<section class="hero result-hero">
+  <span class="eyebrow">TU ITINERARIO</span>
+  <h1>Un día diferente en {{ resultado.get('ciudad', 'tu destino') }}</h1>
+  <p>Una propuesta para descubrir la ciudad a tu manera. Revisa los datos y las recomendaciones antes de salir.</p>
 </section>
+
+{% if resultado.get('error') or resultado.get('error_resumido') %}
+<section class="result-alert" role="alert">
+  <span class="result-alert__icon" aria-hidden="true">!</span>
+  <div>
+    <h2>No se pudo completar el plan</h2>
+    <p>Ha ocurrido un problema al preparar la ruta. Vuelve al planificador e inténtalo de nuevo más tarde.</p>
+  </div>
+</section>
+{% else %}
+
+{% if datos_demo %}
+<aside class="demo-alert" role="status">
+  <span class="demo-alert__icon" aria-hidden="true">!</span>
+  <div>
+    <strong>DATOS DE DEMOSTRACIÓN</strong>
+    <p>Algunos lugares de esta propuesta son simulados y no están verificados en el mapa. Comprueba la información antes de planificar tu visita.</p>
+  </div>
+</aside>
+{% endif %}
+
+<section class="result-summary" aria-label="Resumen del plan">
+  <article class="result-summary__item">
+    <span class="result-summary__label">Tipo de plan</span>
+    <strong>{{ tipo_nombre or 'Sin especificar' }}</strong>
+  </article>
+  <article class="result-summary__item">
+    <span class="result-summary__label">Duración</span>
+    <strong>
+      {% if resultado.get('duracion_horas') %}
+        {{ resultado.get('duracion_horas') }} horas
+      {% else %}
+        A tu ritmo
+      {% endif %}
+    </strong>
+  </article>
+  <article class="result-summary__item">
+    <span class="result-summary__label">Lugares encontrados</span>
+    <strong>{{ lugares | length }}</strong>
+  </article>
+</section>
+
+<section class="surface result-weather" aria-labelledby="weather-title">
+  <div class="result-section-heading">
+    <span class="result-section-icon result-section-icon--weather" aria-hidden="true">☀</span>
+    <div>
+      <span class="eyebrow">ANTES DE SALIR</span>
+      <h2 id="weather-title">El tiempo en {{ resultado.get('ciudad', 'tu destino') }}</h2>
+    </div>
+  </div>
+  <div class="weather-grid">
+    <div class="weather-stat">
+      <span class="weather-stat__label">Temperatura</span>
+      <strong>
+        {% if clima.get('temperatura_c') is not none %}
+          {{ clima.get('temperatura_c') }}<span>°C</span>
+        {% else %}
+          No disponible
+        {% endif %}
+      </strong>
+    </div>
+    <div class="weather-stat">
+      <span class="weather-stat__label">Precipitación</span>
+      <strong>
+        {% if clima.get('precipitacion_mm') is not none %}
+          {{ clima.get('precipitacion_mm') }}<span> mm</span>
+        {% else %}
+          No disponible
+        {% endif %}
+      </strong>
+    </div>
+    {% if clima.get('instante') %}
+    <div class="weather-stat weather-stat--time">
+      <span class="weather-stat__label">Observado</span>
+      <strong>{{ clima.get('instante') }}</strong>
+    </div>
+    {% endif %}
+  </div>
+  {% if clima.get('codigo_tiempo') is not none %}
+  <p class="weather-note">Código meteorológico WMO: {{ clima.get('codigo_tiempo') }}</p>
+  {% endif %}
+</section>
+
+<section class="surface result-itinerary" aria-labelledby="itinerary-title">
+  <div class="result-section-heading">
+    <span class="result-section-icon result-section-icon--route" aria-hidden="true">↗</span>
+    <div>
+      <span class="eyebrow">TU PROPUESTA</span>
+      <h2 id="itinerary-title">Ruta recomendada</h2>
+    </div>
+  </div>
+  {% if resultado.get('itinerario') %}
+  <div class="itinerary-copy">{{ resultado.get('itinerario') }}</div>
+  {% else %}
+  <p class="result-empty">No se ha generado un itinerario para esta solicitud.</p>
+  {% endif %}
+  {% if resultado.get('modo_modelo') == 'mock' or resultado.get('modo_modelo') == 'simulador' %}
+  <p class="model-note">Este texto se ha generado en modo de simulación, no mediante un modelo generativo.</p>
+  {% endif %}
+</section>
+
+<section class="surface result-places" aria-labelledby="places-title">
+  <div class="result-section-heading">
+    <span class="result-section-icon result-section-icon--places" aria-hidden="true">⌖</span>
+    <div>
+      <span class="eyebrow">PUNTOS DE INTERÉS</span>
+      <h2 id="places-title">Lugares considerados</h2>
+    </div>
+  </div>
+  {% if lugares %}
+  <ol class="place-list">
+    {% for lugar in lugares %}
+    <li class="place-card">
+      <span class="place-card__number" aria-hidden="true">{{ loop.index }}</span>
+      <div class="place-card__content">
+        <h3>{{ lugar.get('nombre', 'Lugar sin nombre') }}</h3>
+        {% if lugar.get('categoria') %}
+        <p>{{ lugar.get('categoria') | replace('_', ' ') | title }}</p>
+        {% endif %}
+        {% if lugar.get('demo') %}
+        <span class="place-badge">Demo · no verificado</span>
+        {% elif lugar.get('fuente') %}
+        <span class="place-source">Fuente: {{ lugar.get('fuente') }}</span>
+        {% endif %}
+      </div>
+      {% if lugar.get('lat') is not none and lugar.get('lon') is not none and not lugar.get('demo') %}
+      <a
+        class="place-link"
+        href="https://www.openstreetmap.org/?mlat={{ lugar.get('lat') }}&amp;mlon={{ lugar.get('lon') }}#map=17/{{ lugar.get('lat') }}/{{ lugar.get('lon') }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Ver {{ lugar.get('nombre', 'el lugar') }} en OpenStreetMap (se abre en una pestaña nueva)"
+      >Ver mapa <span aria-hidden="true">↗</span></a>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+  {% else %}
+  <p class="result-empty">No se encontraron lugares para esta búsqueda. No se han añadido sitios inventados.</p>
+  {% endif %}
+</section>
+{% endif %}
+
+<nav class="result-actions" aria-label="Acciones">
+  <a class="button" href="/">Crear otro plan</a>
+  <a class="result-back-link" href="/analitica">Ver analítica</a>
+</nav>
 {% endblock %}
