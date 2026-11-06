@@ -7,7 +7,7 @@
 - Estudiante: Rafael Pontes Alvarez
 - Equipo: Darwin, Cristofer, Hugo
 - Repositorio GitHub: https://github.com/Rpa06/CITYPILOT-IA/
-- Mis dos PR, con revisión cruzada: https://github.com/Rpa06/CITYPILOT-IA/pull/1 y [PR 2]
+- Mis dos PR, con revisión cruzada: https://github.com/Rpa06/CITYPILOT-IA/pull/1 y https://github.com/Rpa06/CITYPILOT-IA/pull/5
 - Archivos o funciones que implementé personalmente: api_clientes.py, colabore en orchestator.py
 - Pruebas que ejecuté personalmente y resultado: Probe en el jupyter los requests.get
 
@@ -31,6 +31,16 @@
 - **Qué hice yo con ello:** Adapte los valores y metadatos
 - **Resultado y verificación:** Probe en postman una URL
 - **Evidencia:** api_clients.py
+
+### Interacción 2 — 10:34 AM, 
+
+- **Qué intentaba resolver:** Creacion de tests
+- **Herramienta/fuente y prompt o instrucción:** Le di el TODO, y  le solicite 2 tests
+- **Qué propuso o respondió:** Creo los 2 ultimos tests
+- **Qué hice yo con ello:** Aprobe
+- **Resultado y verificación:** Se probo con la funcionalidad de la app
+- **Evidencia:** test_smoke.py
+
 
 ## 4. Evolución del prompt de itinerarios (si utilizaste el LLM)
 
