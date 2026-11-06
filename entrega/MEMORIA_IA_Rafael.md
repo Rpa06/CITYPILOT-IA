@@ -4,18 +4,18 @@
 
 ## 1. Autoría y aportación individual
 
-- Estudiante: [nombre y apellidos]
-- Equipo: [nombres]
-- Repositorio GitHub: [enlace]
-- Mis dos PR, con revisión cruzada: [PR 1] y [PR 2]
-- Archivos o funciones que implementé personalmente: [detalle]
-- Pruebas que ejecuté personalmente y resultado: [detalle y evidencia]
+- Estudiante: Rafael Pontes Alvarez
+- Equipo: Darwin, Cristofer, Hugo
+- Repositorio GitHub: https://github.com/Rpa06/CITYPILOT-IA/
+- Mis dos PR, con revisión cruzada: https://github.com/Rpa06/CITYPILOT-IA/pull/1 y https://github.com/Rpa06/CITYPILOT-IA/pull/5
+- Archivos o funciones que implementé personalmente: api_clientes.py, colabore en orchestator.py
+- Pruebas que ejecuté personalmente y resultado: Probe en el jupyter los requests.get
 
 ## 2. Herramientas y fuentes usadas
 
 | Herramienta o fuente | Modelo/versión, si se conoce | Finalidad | ¿Se incorporó código o texto? |
 |---|---|---|---|
-| [ChatGPT, Claude, Copilot, documentación, GitHub, etc.] | [indicar] | [para qué] | [sí/no, dónde] |
+| Gemini | no se | Investigacion, aprendizaje y correccion de errores | Si, secciones complicadas en donde se corrigieron los errores |
 
 - Si no utilicé IA generativa: [escribir «No he utilizado IA generativa», y fuentes que sí consulté].
 
@@ -23,23 +23,24 @@
 
 > Repetid la ficha por cada interacción sustantiva: explicación de errores, generación/adaptación de fragmentos, revisión de código, ayuda con pruebas, diseño del prompt, etc. No basta enumerar herramientas. Se puede enlazar una conversación o captura depurada, pero debe existir un **resumen propio** de lo ocurrido.
 
-### Interacción 1 — [fecha/hora aproximada y tarea]
+### Interacción 1 — ni idea de fecha y hora, 
 
-- **Qué intentaba resolver:** [problema concreto]
-- **Herramienta/fuente y prompt o instrucción:** [texto usado o resumen reproducible + enlace/captura, sin claves]
-- **Qué propuso o respondió:** [respuesta relevante; código o ideas recibidas]
-- **Qué hice yo con ello:** [copié/adapté/probé/descarté; cambios concretos]
-- **Resultado y verificación:** [funcionó/no funcionó, cómo lo comprobé]
-- **Evidencia:** [ruta de archivo, commit, PR, test, captura]
+- **Qué intentaba resolver:** Aprender a usar la api de overpass
+- **Herramienta/fuente y prompt o instrucción:** how to use the overpass api?
+- **Qué propuso o respondió:** Ofrecio el codigo que se uso de inspiracion
+- **Qué hice yo con ello:** Adapte los valores y metadatos
+- **Resultado y verificación:** Probe en postman una URL
+- **Evidencia:** api_clients.py
 
-### Interacción 2 — [duplicar si procede]
+### Interacción 2 — 10:34 AM, 
 
-- **Qué intentaba resolver:** [...]
-- **Herramienta/fuente y prompt:** [...]
-- **Qué propuso:** [...]
-- **Qué hice yo:** [...]
-- **Resultado y verificación:** [...]
-- **Evidencia:** [...]
+- **Qué intentaba resolver:** Creacion de tests
+- **Herramienta/fuente y prompt o instrucción:** Le di el TODO, y  le solicite 2 tests
+- **Qué propuso o respondió:** Creo los 2 ultimos tests
+- **Qué hice yo con ello:** Aprobe
+- **Resultado y verificación:** Se probo con la funcionalidad de la app
+- **Evidencia:** test_smoke.py
+
 
 ## 4. Evolución del prompt de itinerarios (si utilizaste el LLM)
 
@@ -58,9 +59,9 @@
 
 ## 6. Balance personal
 
-- **Dos decisiones técnicas que tomé yo:** [y por qué]
-- **Un error o solución que descarté:** [qué aprendiste]
-- **Qué código puedo explicar y demostrar:** [archivos/funciones]
-- **Qué sigue pendiente o limitado:** [indicar con honestidad]
+- **Dos decisiones técnicas que tomé yo:** 
+- **Un error o solución que descarté:** Forze tipado a la respuesta pero esa daba error debido a probabiidad de None
+- **Qué código puedo explicar y demostrar:** api_clients.py, orchestator.py
+- **Qué sigue pendiente o limitado:** manejo de errores
 
 **Declaración:** Confirmo que la memoria describe fielmente mis fuentes, la asistencia recibida, los cambios que introduje y mi aportación personal. [nombre / fecha]
