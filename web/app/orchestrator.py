@@ -1,4 +1,6 @@
 """Punto ÚNICO de integración para web y API JSON. Pendiente del alumnado."""
+from flask import abort
+
 from app import api_clients, db, llm
 
 TIPOS_VALIDOS = {"cultural", "gastronomica", "naturaleza", "familiar"}
@@ -29,11 +31,11 @@ def procesar_solicitud(ciudad: str, tipo_turismo: str, duracion_horas: int, pref
     """
     # 1 Validacion
     if ciudad.strip() == "":
-        raise ValueError("La ciudad no puede estar vacía")
+        abort(400, description="La ciudad no puede estar vacía")
     if tipo_turismo not in TIPOS_VALIDOS:
-        raise ValueError(f"Tipo de turismo no válido: {tipo_turismo}")
+        abort(400, description=f"Tipo de turismo no válido: {tipo_turismo}")
     if duracion_horas not in DURACIONES_VALIDAS:
-         raise ValueError(f"Duración no válida: {duracion_horas}")
+        abort(400, description=f"Duración no válida: {duracion_horas}")
     
     # 2 Geocodificación y meteorología
     coordenadas = api_clients.geocodificar(ciudad)
