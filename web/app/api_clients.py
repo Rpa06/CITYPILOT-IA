@@ -10,25 +10,36 @@ OVERPASS_URL = os.getenv("OVERPASS_URL", "https://overpass-api.de/api/interprete
 
 
 def geocodificar(ciudad: str) -> dict:
-    """TODO(ALUMNADO).
-
-    Entrada: 'Valencia'. Salida normalizada: {'ciudad': 'Valencia',
-    'pais': 'España', 'lat': 39.47, 'lon': -0.38} (números ilustrativos).
-    Usar Open-Meteo Geocoding y controlar búsqueda sin resultados.
-    Restricción: peticiones con timeout, filtrando countryCode='ES' si se
-    decide limitar a España.
-    """
-    raise NotImplementedError("Implementa búsqueda de coordenadas")
+    response = requests.get(GEO_URL+f"?name={ciudad}&count=1&language=es&format=json", timeout=5)
+    # Buscamos results
+    if response.status_code == 200:
+        data = response.json()
+        if "results" in data and len(data["results"]) > 0:
+            result = data["results"][0]
+            return {
+                "ciudad": str(result.get("name")),
+                "pais":str(result.get("country")),
+                "lat": float(result.get("latitude")),
+                "lon": float(result.get("longitude"))
+            }
+    
+    raise ValueError(f"No se encontraron resultados para la ciudad: {ciudad}")
 
 
 def obtener_meteorologia(lat: float, lon: float) -> dict:
-    """TODO(ALUMNADO).
-
-    Devolver, como mínimo: temperatura_c, precipitacion_mm,
-    codigo_tiempo, instante. Seleccionar current=temperature_2m,
-    precipitation,weather_code e incluir timezone=auto.
-    """
-    raise NotImplementedError("Implementa consulta meteorológica")
+    response = requests.get(METEO_URL+f"?latitude={lat}&longitude={lon}&current_weather=true&timezone=auto", timeout=5)
+    if response.status_code == 200:
+        data = response.json()
+        if "current_weather" in data:
+            current_weather = data["current_weather"]
+            return {
+                "temperatura_c": float(current_weather.get("temperature")),
+                "precipitacion_mm": float(current_weather.get("precipitation")),
+                "codigo_tiempo": int(current_weather.get("weathercode")),
+                "instante": str(current_weather.get("time"))
+            }
+    
+    raise ValueError(f"No se pudo obtener la meteorología para lat: {lat}, lon: {lon}")
 
 
 def obtener_lugares(lat: float, lon: float, tipo: str) -> list[dict]:
@@ -40,6 +51,7 @@ def obtener_lugares(lat: float, lon: float, tipo: str) -> list[dict]:
     8-12 lugares. Gestionar nodos (lat/lon) y ways/relations (center).
     Nunca introducir valores libres del usuario en una consulta QL.
     """
+    
     raise NotImplementedError("Implementa consulta de puntos de interés")
 
 
