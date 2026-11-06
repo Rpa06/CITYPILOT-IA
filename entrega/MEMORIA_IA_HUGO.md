@@ -85,7 +85,11 @@ No se registraron claves, tokens ni credenciales en el código o en esta memoria
 - **Código que debo poder explicar y demostrar:** estructura Jinja y clases visuales del formulario y beneficios; validación y códigos HTTP de `main.py`; diferencia entre datos reales y demo; y responsabilidades del orquestador, clientes externos y persistencia.
 - **Pendiente o limitado:** repetir las pruebas personalmente; comprobar la interfaz en navegador y distintos tamaños; implementar y probar la integración real de [orchestrator.py](../web/app/orchestrator.py), [api_clients.py](../web/app/api_clients.py) y [db.py](../web/app/db.py); terminar el cliente Cohere y documentar su prompt; completar las plantillas y analítica; confirmar la referencia de la segunda PR.
 
-**Declaración:** esta memoria distingue la aportación personal declarada de la asistencia de IA registrada. Antes de entregarla, debo revisar que los datos personales, las PR, las pruebas y la descripción de mi trabajo sean exactos y cambiar cualquier afirmación que no pueda demostrar.
+## Declaración individual de uso de IA — Hugo Ballesteros
 
-**Nombre:** HUGO BALLESTEROS  
-**Fecha de revisión y firma:** pendiente de completar personalmente.
+Declaro que he utilizado herramientas de IA como apoyo durante este proyecto. La asistencia se empleó para proponer y adaptar partes de la interfaz HTML/CSS, completar rutas y validaciones de Flask y redactar esta memoria. El uso concreto, los cambios y las comprobaciones conocidas están descritos en los apartados anteriores. La IA no sustituye mi responsabilidad sobre el código ni sobre la exactitud de esta declaración.
+
+Antes de entregar, revisaré que la descripción de mi aportación, las PR y las pruebas coincida con lo que hice y pueda explicar. No presentaré como verificada la integración que no se haya probado, ni como propio sin revisión el código generado con asistencia.
+
+- **Estudiante:** Hugo Ballesteros
+- **Fecha:** 6 de noviembre de 2026
