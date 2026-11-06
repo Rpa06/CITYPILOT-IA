@@ -43,16 +43,50 @@ def obtener_meteorologia(lat: float, lon: float) -> dict:
 
 
 def obtener_lugares(lat: float, lon: float, tipo: str) -> list[dict]:
-    """TODO(ALUMNADO).
+    response = requests.get(
+        OVERPASS_URL,
+        params={
+            "data": f"""
+            [out:json][timeout:25];
+            (
+              node["tourism"="{tipo}"](around:2500,{lat},{lon});
+              way["tourism"="{tipo}"](around:2500,{lat},{lon});
+              relation["tourism"="{tipo}"](around:2500,{lat},{lon});
+            );
+            out center;
+            """,
+        },
+        timeout=30
+    )
+    max_lugares = 12
+    if response.status_code == 200:
+        data = response.json()
+        lugares = []
+        for element in data.get("elements", []):
+            if element["type"] == "node":
+                lugares.append({
+                    "nombre": element.get("tags", {}).get("name"),
+                    "categoria": element.get("tags", {}).get("tourism"),
+                    "lat": element.get("lat"),
+                    "lon": element.get("lon"),
+                    "fuente": "Overpass"
+                })
+            elif element["type"] in ["way", "relation"]:
+                center = element.get("center")
+                if center:
+                    lugares.append({
+                        "nombre": element.get("tags", {}).get("name"),
+                        "categoria": element.get("tags", {}).get("tourism"),
+                        "lat": center.get("lat"),
+                        "lon": center.get("lon"),
+                        "fuente": "Overpass"
+                    })
+            max_lugares -= 1
+            if max_lugares <= 0:
+                break
+        return lugares
 
-    Consultar un radio urbano acotado de Overpass/OSM (2-3 km).
-    Filtrar según tipo: cultural, gastronomica, naturaleza, familiar.
-    Normalizar a [{nombre, categoria, lat, lon, fuente, ...}], máximo
-    8-12 lugares. Gestionar nodos (lat/lon) y ways/relations (center).
-    Nunca introducir valores libres del usuario en una consulta QL.
-    """
-    
-    raise NotImplementedError("Implementa consulta de puntos de interés")
+    raise ValueError(f"No se pudo obtener lugares para lat: {lat}, lon: {lon}, tipo: {tipo}")
 
 
 def cargar_fixture_lugares() -> list[dict]:
