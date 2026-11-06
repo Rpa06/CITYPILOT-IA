@@ -6,40 +6,47 @@
   <h1>¿Qué hacemos hoy?</h1>
   <p>Elige dónde ir y cómo te apetece descubrir la ciudad. Combinaremos información meteorológica, lugares abiertos y un modelo generativo.</p>
 </section>
-</section>
 <section class="surface">
   <h2>Tu plan para hoy</h2>
-    <form method="post" action="/planificar">
+  <form method="post" action="/planificar">
+    <div class="form-field form-field--wide">
       <label for="ciudad">Ciudad (Ej: Zagreb)</label>
-      <input id="ciudad" name="Ciudad" required>
+      <input id="ciudad" name="Ciudad" placeholder="Ej. Zagreb" required>
+    </div>
 
+    <div class="form-field">
       <label for="tipo_turismo">Tipo de Turismo</label>
-      <select id="tipo_turismo" name="Tipo" required> 
+      <select id="tipo_turismo" name="Tipo" required>
         <option value="cultural" {% if valores.get('Tipo') == 'cultural' %}selected{% endif %}>Cultural</option>
-        <option value="gastronomica" {% if valores.get('Tipo') == 'gastronomica' %}selected{% endif %}>Gastronomica</option>
+        <option value="gastronomica" {% if valores.get('Tipo') == 'gastronomica' %}selected{% endif %}>Gastronómica</option>
         <option value="naturaleza" {% if valores.get('Tipo') == 'naturaleza' %}selected{% endif %}>Naturaleza</option>
         <option value="familiar" {% if valores.get('Tipo') == 'familiar' %}selected{% endif %}>Familiar</option>
       </select>
-        
-      <label for="duracion_horas">Duracion del Plan</label>
+    </div>
+
+    <div class="form-field">
+      <label for="duracion_horas">Duración del plan</label>
       <select id="duracion_horas" name="Duracion" required>
         <option value="2" {% if valores.get('Duracion') == '2' %}selected{% endif %}>2h</option>
         <option value="4" {% if valores.get('Duracion') == '4' %}selected{% endif %}>4h</option>
         <option value="6" {% if valores.get('Duracion') == '6' %}selected{% endif %}>6h</option>
       </select>
+    </div>
 
+    <div class="form-field form-field--wide">
       <label for="preferencias">Preferencias del Viaje</label>
       <textarea
         id="preferencias"
         name="Preferencias"
         rows="3"
         maxlength="200"
-        placeholder="Ej. Voy con niños, quiero andar mucho, quiero comer bien, vamos en coche, queremos visitar catedrales, quiero visitar playas si son family friendly" 
-        ></textarea>
+        placeholder="Ej. Voy con niños, quiero andar poco y nos gustaría comer bien."
+      ></textarea>
+    </div>
 
-      <button type="submit">Generar mi Ruta</button>
-     </form>
-  </section>
+    <button type="submit">Generar mi ruta</button>
+  </form>
+</section>
 <section class="three">
   <article class="tile"><h3>🌤️ Meteo</h3><p>El plan tendrá en cuenta el tiempo.</p></article>
   <article class="tile"><h3>📍 Lugares reales</h3><p>El modelo recibirá destinos recuperados de OpenStreetMap.</p></article>
