@@ -8,6 +8,9 @@
 </section>
 <section class="surface">
   <h2>Tu plan para hoy</h2>
+  {% if error %}
+  <div class="notice" role="alert">{{ error }}</div>
+  {% endif %}
   <form method="post" action="/planificar">
     <div class="form-field form-field--wide">
       <label for="ciudad">Ciudad (Ej: Zagreb)</label>
@@ -47,9 +50,35 @@
     <button type="submit">Generar mi ruta</button>
   </form>
 </section>
-<section class="three">
-  <article class="tile"><h3>🌤️ Meteo</h3><p>El plan tendrá en cuenta el tiempo.</p></article>
-  <article class="tile"><h3>📍 Lugares reales</h3><p>El modelo recibirá destinos recuperados de OpenStreetMap.</p></article>
-  <article class="tile"><h3>🧠 Plan inteligente</h3><p>Reordenará y explicará las propuestas según tus preferencias.</p></article>
+# REVISAR
+<section class="benefits-section" aria-labelledby="benefits-title">
+  <div class="benefits-heading">
+    <span class="eyebrow">ASÍ FUNCIONA</span>
+    <h2 id="benefits-title">Un plan pensado para ti</h2>
+    <p>Datos útiles y recomendaciones para disfrutar la ciudad a tu manera.</p>
+  </div>
+  <div class="benefits-grid">
+    <article class="benefit-card">
+      <span class="benefit-icon benefit-icon--weather" aria-hidden="true">☀</span>
+      <div>
+        <h3>El tiempo, bajo control</h3>
+        <p>La previsión meteorológica ayuda a adaptar el plan al día que te espera.</p>
+      </div>
+    </article>
+    <article class="benefit-card">
+      <span class="benefit-icon benefit-icon--places" aria-hidden="true">⌖</span>
+      <div>
+        <h3>Lugares que existen</h3>
+        <p>Recomendaciones basadas en lugares reales de OpenStreetMap.</p>
+      </div>
+    </article>
+    <article class="benefit-card">
+      <span class="benefit-icon benefit-icon--plan" aria-hidden="true">✦</span>
+      <div>
+        <h3>Una ruta a tu estilo</h3>
+        <p>Un modelo generativo ordena las propuestas según tus preferencias.</p>
+      </div>
+    </article>
+  </div>
 </section>
 {% endblock %}
