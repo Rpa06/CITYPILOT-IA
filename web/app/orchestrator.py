@@ -51,6 +51,25 @@ def procesar_solicitud(ciudad: str, tipo_turismo: str, duracion_horas: int, pref
       modo_demo = True
     
     # 4 Preparar contexto y llamar a llm
+    contexto = ciudad, tipo_turismo, duracion_horas, preferencias, meteorologia, lugares[0:5]
+    generar_itinerario_resultado, prompt_usado = llm.generar_itinerario(contexto)
+    
+    # 5 Guardar en PostgreSQL
+    solicitud_id = db.guardar_solicitud(
+         ciudad=ciudad,
+         tipo_turismo=tipo_turismo,
+         duracion_horas=duracion_horas,
+         preferencias=preferencias,
+         meteorologia=meteorologia,
+         lugares=lugares,
+         itinerario=generar_itinerario_resultado,
+         prompt_usado=prompt_usado,
+         modo_demo=modo_demo
+         lat
+    )
+    
+    
+    
     
     
     raise NotImplementedError("Implementa el flujo de integración")
