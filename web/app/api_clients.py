@@ -33,10 +33,10 @@ def obtener_meteorologia(lat: float, lon: float) -> dict:
         if "current_weather" in data:
             current_weather = data["current_weather"]
             return {
-                "temperatura_c": float(current_weather.get("temperature")),
-                "precipitacion_mm": float(current_weather.get("precipitation")),
-                "codigo_tiempo": int(current_weather.get("weathercode")),
-                "instante": str(current_weather.get("time"))
+                "temperatura_c": current_weather.get("temperature"),
+                "precipitacion_mm": current_weather.get("precipitation"),
+                "codigo_tiempo": current_weather.get("weathercode"),
+                "instante": current_weather.get("time")
             }
     
     raise ValueError(f"No se pudo obtener la meteorología para lat: {lat}, lon: {lon}")
